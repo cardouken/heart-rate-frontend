@@ -45,11 +45,13 @@ function loop() {
             const pulseInterval = calculatePulseSpeed(data.heartRate);
             const refreshRate = Math.round(pulseInterval * 1000);
             let $hrate = $('.hrate');
+            let $avg = $('.avg');
 
             console.log(data);
             console.log("ms per beat: " + refreshRate);
 
             $hrate.text(formatString(data.heartRate));
+            $avg.html("20min avg<br>" + data.average20Min + " bpm")
 
             PrefixedEvent($hrate[0], "AnimationIteration", function () { // Apply the listener based on browser
                 let el = $(this),

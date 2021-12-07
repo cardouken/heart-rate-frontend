@@ -1,8 +1,6 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'ainoheadline', system-ui;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -23,7 +21,7 @@ body {
 
 .subContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   font-size: 14vw;
   color: indianred;
 }
@@ -32,16 +30,43 @@ body {
   animation: pulse 1s infinite;
 }
 
+.avg {
+  padding-top: 5vw;
+  font-size: 2vw;
+  color: #862d2d;
+}
+
 @keyframes pulse {
   10% {
       transform: scale(1.1)
   }
 }
 
-/*@keyframes pulsecolor {
-  10% {
-      background: indianred
-  }
+@font-face {
+  font-family: 'ainobold';
+  src: url('/fonts/aino_31_170411-bold-webfont.woff2') format('woff2'),
+  url('/fonts/aino_31_170411-bold-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
 }
 
-*/
+
+@font-face {
+  font-family: 'ainoregular';
+  src: url('/fonts/aino_31_170411-regular-webfont.woff2') format('woff2'),
+  url('/fonts/aino_31_170411-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+
+@font-face {
+  font-family: 'ainoheadline';
+  src: url('/fonts/aino-headline-webfont.woff2') format('woff2'),
+  url('/fonts/aino-headline-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
