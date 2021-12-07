@@ -1,4 +1,3 @@
-
 const API_BASE_URI = 'http://health.uustal.ee/heart-rate';
 const SMOOTHING_AVG = 2;
 let latestHeartRates = [];
@@ -8,7 +7,7 @@ let pfx = ["webkit", "moz", "MS", "o", ""]; // Allow browser prefixes to work fo
 function PrefixedEvent(element, type, callback) { // Allow one JS listener based on browser
     for (let p = 0; p < pfx.length; p++) {
         if (!pfx[p]) type = type.toLowerCase();
-        element.addEventListener(pfx[p]+type, callback, false);
+        element.addEventListener(pfx[p] + type, callback, false);
     }
 }
 
@@ -35,15 +34,14 @@ function calculatePulseSpeed(latestHr) {
     return seconds;
 }
 
-function loop()
-{
+function loop() {
     setTimeout(() => {
         $.ajax({
             url: API_BASE_URI,
             global: false,
             type: "GET",
             dataType: "json"
-        }).done(function(data){
+        }).done(function (data) {
             const pulseInterval = calculatePulseSpeed(data.heartRate);
             const refreshRate = Math.round(pulseInterval * 1000);
             let $hrate = $('.hrate');
@@ -53,7 +51,7 @@ function loop()
 
             $hrate.text(formatString(data.heartRate));
 
-            PrefixedEvent($hrate[0], "AnimationIteration", function() { // Apply the listener based on browser
+            PrefixedEvent($hrate[0], "AnimationIteration", function () { // Apply the listener based on browser
                 let el = $(this),
                     newOne = el.clone(true).css({'animation': 'pulse ' + refreshRate + 'ms infinite'});
                 el.before(newOne);
@@ -65,6 +63,6 @@ function loop()
     }, 750);
 }
 
-$(function() {
+$(function () {
     loop();
 })
