@@ -56,7 +56,6 @@ function loop() {
                     newOne = el.clone(true).css({'animation': 'pulse ' + refreshRate + 'ms infinite'});
                 el.before(newOne);
                 $("." + el.attr("class") + ":last").remove(); // Remove old element
-
                 loop();
             });
         });
