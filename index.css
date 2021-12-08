@@ -1,72 +1,91 @@
 body {
-  margin: 0;
-  font-family: 'ainoheadline', system-ui;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+    font-family: 'ainoregular', system-ui;
+    font-weight: lighter;
+    -webkit-font-smoothing: subpixel-antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .app {
-  text-align: center;
-  background-color: #1d1d1d;
-  color: #fff8ea;
+    text-align: center;
+    background-color: #1d1d1d;
+    color: #fff8ea;
 }
 
 .container {
-  display: flex;
-  height: 100vh;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center
 }
 
 .subContainer {
-  display: flex;
-  flex-direction: column;
-  font-size: 14vw;
-  color: indianred;
+    display: flex;
+    flex-direction: column;
+    font-size: max(10vw, 30px);
+    color: indianred;
 }
 
 .hrate {
-  animation: pulse 1s infinite;
+    animation: pulse 1s infinite;
 }
 
-.avg {
-  padding-top: 5vw;
-  font-size: 2vw;
-  color: #862d2d;
+.stats {
+    width: 49%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    font-family: 'ainoheadline', system-ui;
+    font-size: 2vw;
+    color: #2f2f2f;
+}
+
+.rssi {
+    margin-right: 3vw;
+    text-align: right;
+}
+
+.avg60min {
+    margin-right: 3vw;
+    text-align: left;
+}
+
+.avg360min {
+    text-align: left;
 }
 
 @keyframes pulse {
-  10% {
-      transform: scale(1.1)
-  }
+    10% {
+        transform: scale(1.1)
+    }
 }
 
 @font-face {
-  font-family: 'ainobold';
-  src: url('/fonts/aino_31_170411-bold-webfont.woff2') format('woff2'),
-  url('/fonts/aino_31_170411-bold-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-
-}
-
-
-@font-face {
-  font-family: 'ainoregular';
-  src: url('/fonts/aino_31_170411-regular-webfont.woff2') format('woff2'),
-  url('/fonts/aino_31_170411-regular-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'ainobold';
+    src: url('fonts/aino_31_170411-bold-webfont.woff2') format('woff2'),
+    url('fonts/aino_31_170411-bold-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 
 }
 
 
 @font-face {
-  font-family: 'ainoheadline';
-  src: url('/fonts/aino-headline-webfont.woff2') format('woff2'),
-  url('/fonts/aino-headline-webfont.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
+    font-family: 'ainoregular';
+    src: url('fonts/aino_31_170411-regular-webfont.woff2') format('woff2'),
+    url('fonts/aino_31_170411-regular-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'ainoheadline';
+    src: url('fonts/aino-headline-webfont.woff2') format('woff2'),
+    url('fonts/aino-headline-webfont.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 
 }

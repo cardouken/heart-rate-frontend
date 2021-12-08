@@ -34,6 +34,20 @@ function calculatePulseSpeed(latestHr) {
     return seconds;
 }
 
+function formatAverage(time, average) {
+    if (average === undefined) {
+        return "N/A"
+    }
+    return time + "h avg<br>" + average + " bpm";
+}
+
+function formatRssi(rssi) {
+    if (rssi === undefined) {
+        return "N/A"
+    }
+    return "rssi<br>" + rssi + " db"
+}
+
 function loop() {
     setTimeout(() => {
         $.ajax({
@@ -45,13 +59,18 @@ function loop() {
             const pulseInterval = calculatePulseSpeed(data.heartRate);
             const refreshRate = Math.round(pulseInterval * 1000);
             let $hrate = $('.hrate');
-            let $avg = $('.avg');
+            // let $stats = $('.stats');
+            let $rssi = $('.rssi');
+            let $avg60min = $('.avg60min');
+            let $avg360min = $('.avg360min');
 
             console.log(data);
             console.log("ms per beat: " + refreshRate);
 
             $hrate.text(formatString(data.heartRate));
-            $avg.html("20min avg<br>" + data.average20Min + " bpm")
+            $avg60min.html(formatAverage(1, data.hourlyAverage))
+            $avg360min.html(formatAverage(6, data.sixHourAverage))
+            $rssi.html(formatRssi(data.rssi))
 
             PrefixedEvent($hrate[0], "AnimationIteration", function () { // Apply the listener based on browser
                 let el = $(this),
