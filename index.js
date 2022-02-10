@@ -4,18 +4,70 @@ const source = new EventSource(API_BASE_URI);
 
 let data = [];
 let ded = false;
-source.addEventListener('SSE_EVENT', function (e) {
-    console.log("SSE_EVENT " + e.data);
-    data = JSON.parse(e.data);
-}, false);
-source.addEventListener('open', function (e) {
-}, false);
 
-source.addEventListener('error', function (e) {
-    if (e.readyState === EventSource.CLOSED) {
-        ded = true;
+function isFunction(functionToCheck) {
+    return functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+}
+
+function debounce(func, wait) {
+    let timeout;
+    let waitFunc;
+
+    return function() {
+        if (isFunction(wait)) {
+            waitFunc = wait;
+        }
+        else {
+            waitFunc = function() { return wait };
+        }
+
+        const context = this, args = arguments;
+        const later = function () {
+            timeout = null;
+            func.apply(context, args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, waitFunc());
+    };
+}
+
+// reconnectFrequencySeconds doubles every retry
+let reconnectFrequencySeconds = 1;
+let evtSource;
+
+const reconnectFunc = debounce(function () {
+    setupEventSource();
+    // Double every attempt to avoid overwhelming server
+    reconnectFrequencySeconds *= 2;
+    // Max out at ~1 minute as a compromise between user experience and server load
+    if (reconnectFrequencySeconds >= 64) {
+        reconnectFrequencySeconds = 64;
     }
-}, false);
+}, function () {
+    return reconnectFrequencySeconds * 1000
+});
+
+function setupEventSource() {
+    console.log("Setting up EventSource")
+    evtSource = new EventSource(API_BASE_URI);
+    evtSource.onmessage = function(e) {
+        console.log("onMessage " + e.data);
+        data = JSON.parse(e.data);
+    };
+    evtSource.onopen = function(e) {
+        // Reset reconnect frequency upon successful connection
+        console.log("Successfully reopened connection after " + reconnectFrequencySeconds + " sec interval")
+        ded = false;
+        reconnectFrequencySeconds = 1;
+    };
+    evtSource.onerror = function(e) {
+        evtSource.close();
+        ded = true;
+        animate();
+        reconnectFunc();
+    };
+}
+setupEventSource();
 
 let pfx = ["webkit", "moz", "MS", "o", ""]; // Allow browser prefixes to work for PrefixedEvent
 function PrefixedEvent(element, type, callback) { // Allow one JS listener based on browser
@@ -51,7 +103,6 @@ function animate() {
     let $avg360min = $('.avg360min');
 
     const refreshRate = calculateRefreshRate(hr);
-    console.log("ms per beat: " + refreshRate);
 
     $hrate.text(formatString(hr));
     $avg60min.html(formatAverage(1, hourlyAverage))
@@ -64,8 +115,10 @@ function animate() {
     PrefixedEvent($hrate[0], "AnimationIteration", function () { // Apply the listener based on browser
         let el = $(this),
             newOne = el.clone(true).css({'animation': 'pulse ' + refreshRate + 'ms infinite'});
+        //$(".app").css({'animation': 'pulsate ' + refreshRate + 'ms infinite'});
         el.before(newOne);
         $("." + el.attr("class") + ":last").remove(); // Remove old element
+
         animate()
     });
 }

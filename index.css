@@ -8,8 +8,9 @@ body {
 
 .app {
     text-align: center;
-    background-color: #1d1d1d;
+    background-color: #000;
     color: #fff8ea;
+    overflow: hidden;
 }
 
 .container {
@@ -17,7 +18,8 @@ body {
     height: 100vh;
     flex-direction: column;
     align-items: center;
-    justify-content: center
+    justify-content: center;
+    overflow: hidden;
 }
 
 .subContainer {
@@ -29,6 +31,8 @@ body {
 
 .hrate {
     animation: pulse 1s infinite;
+    position: fixed;top: 0;left: 0;right: 0;bottom: 0;
+    padding-top:25vh;
 }
 
 .stats {
@@ -57,8 +61,19 @@ body {
 
 @keyframes pulse {
     10% {
-        transform: scale(1.07)
+        background: rgba(255,0,0,0.3);
+        transform: scale(1.07);
     }
+}
+
+@keyframes pulsate {
+    0%, 100%{
+        background: black;
+    }
+    10% {
+        background: indianred;
+    }
+
 }
 
 @font-face {
